@@ -1,0 +1,53 @@
+﻿@page "/"
+@layout MainLayout
+@using EventEase.Shared.Components
+
+<div class="header">
+    <h1>Welcome to Event Ease</h1>
+</div>
+
+<h3>Upcoming Events</h3>
+
+@if (events == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @foreach (var eventItem in events)
+    {
+        <EventCard Event="eventItem" />
+    }
+}
+
+@code {
+    private List<Event> events = new List<Event>();
+
+    protected override void OnInitialized()
+    {
+        events = new List<Event>
+        {
+            new Event 
+            { 
+                Name = "Tech Conference 2024", 
+                Date = new DateTime(2024, 10, 25), 
+                Location = "Melbourne Convention Centre",
+                Description = "A conference for tech enthusiasts."
+            },
+            new Event 
+            { 
+                Name = "Music Festival", 
+                Date = new DateTime(2024, 11, 15), 
+                Location = "Sydney Park",
+                Description = "A festival featuring various music artists."
+            },
+            new Event 
+            { 
+                Name = "Art Exhibition", 
+                Date = new DateTime(2024, 12, 5), 
+                Location = "National Gallery",
+                Description = "An exhibition showcasing contemporary art."
+            }
+        };
+    }
+}

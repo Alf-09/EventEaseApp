@@ -1,0 +1,65 @@
+@page "/register"
+@layout MainLayout
+@using EventEase.Shared.Components
+@using EventEase.Shared.Models
+@inject IJSRuntime JSRuntime
+
+<h2>Register New Event</h2>
+
+<EditForm Model="@newEvent" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="name">Event Name:</label>
+        <InputText id="name" class="form-control" @bind-Value="newEvent.Name" autocomplete="off" /> 
+    </div>
+    <div class="form-group">
+        <label for="date">Date:</label>
+        <InputDate id="date" class="form-control" @bind-Value="newEvent.Date" TValue="DateTime" autocomplete="off" /> 
+    </div>
+    <div class="form-group">
+        <label for="location">Location:</label>
+        <InputText id="location" class="form-control" @bind-Value="newEvent.Location" autocomplete="off" /> 
+    </div>
+    <div class="form-group">
+        <label for="description">Description:</label>
+        <InputText id="description" class="form-control" @bind-Value="newEvent.Description" autocomplete="off" /> 
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register Event</button>
+</EditForm>
+
+<ConfirmationModal @ref="confirmationModal" ModalTitle="Event Added" ModalText="Your event has been added successfully!" />
+
+@code {
+    private Event newEvent = new Event
+    {
+        Name = string.Empty,
+        Location = string.Empty,
+        Description = string.Empty
+    };
+    private List<Event> events = new List<Event>();
+    private ConfirmationModal? confirmationModal; 
+
+    private async Task HandleValidSubmit()
+    {
+        events.Add(newEvent);
+        newEvent = new Event
+        {
+            Name = string.Empty,
+            Location = string.Empty,
+            Description = string.Empty
+        };
+
+        if (confirmationModal != null) 
+        {
+            confirmationModal.ShowModal();
+            await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('exampleModal').classList.add('show');");
+        }
+        else
+        {
+            Console.WriteLine("Error: confirmationModal is null."); 
+        }
+    }
+}

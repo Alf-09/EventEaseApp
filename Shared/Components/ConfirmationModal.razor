@@ -1,0 +1,36 @@
+@namespace EventEase.Shared.Components
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: @ModalDisplay">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">@(ModalTitle ?? "Default Title")</h5> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="CloseModal"></button>
+            </div>
+            <div class="modal-body">
+                @(ModalText ?? "Default Text") 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" @onclick="CloseModal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string? ModalTitle { get; set; }
+
+    [Parameter]
+    public string? ModalText { get; set; }
+
+    private string ModalDisplay { get; set; } = "none";
+
+       public void ShowModal()
+    {
+        ModalDisplay = "block;";
+    }
+    private void CloseModal()
+    {
+        ModalDisplay = "none";
+    }
+}
